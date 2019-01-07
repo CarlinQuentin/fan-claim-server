@@ -2,14 +2,14 @@ const jwt = require('jsonwebtoken')
 const User = require ('../db').import('../models/user')
 
 module.exports = function(req, res, next) {
-    if (req.method = 'OPTIONS') {
+    if (req.method == 'OPTIONS') {
         next()
     } else {
         let token = req.headers.authorization;
         console.log(token)
         if(!token) return res.status(403).send({ auth: false, message: 'No token provided.'});
         else {
-            jwt.varify(token, process.env.JWT_SECRET, (err, decoded) => {
+            jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
                 if(decoded) {
                     User.findOne({where: {id: decoded.id}}).then(user => {
                         req.user = user;

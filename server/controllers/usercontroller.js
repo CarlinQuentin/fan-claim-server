@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken')
 const bcrypt = require('bcryptjs')
 const User = require('../db').import('../models/user')
 const validatesession = require('../middleware/validate-session')
+const sequelize = require('../db').import('../models/user')
 
 
 router.post('/signup', (req, res) => {
@@ -59,21 +60,21 @@ router.get('/findall', validatesession, (req, res) => {
 })
 
 router.get('/findone', validatesession, (req, res) => {
-    User.findOne({where: {id: req.user.id} } )
+    sequelize.findOne({where: {id: req.user.id} } )
     .then(user => res.status(200).json(user))
     .catch(err => res.status(500).json({error: err}))
 })
 
-router.delete('/', validatesession, (req, res) => {
+router.delete('/delete', validatesession, (req, res) => {
     if(!req.errors) {
-        User.destroy({where: {id: req.useron.id} } )
+        User.destroy({where: {id: req.user.id} } )
         .then(user => res.status (200).json(user))
         .catch(err => res.json(req.error))
     } else {
         res.status(500).json(req.error)
     }
 })
-router.put('/update/:id', validatesession, (req, res) => {
+router.put('/update', validatesession, (req, res) => {
     if(!req.errors) {
         User.update(req.body, {where: {id: req.user.id} } )
         .then(user => res.status (200).json(user))
