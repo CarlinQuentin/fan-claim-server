@@ -16,7 +16,7 @@ router.post('/signup', (req, res) => {
     })
     .then(
         createSuccess = (user) => {
-            let token = jwt.sign({id: params.id}, process.env.JWT_SECRET, {expiresIn: 60 * 60 * 24})
+            let token = jwt.sign({id: user.id}, process.env.JWT_SECRET, {expiresIn: 60 * 60 * 24})
             console.log(token)
 
             res.json({

@@ -17,6 +17,11 @@ module.exports = function (sequelize, DataTypes) {
             allowNull: false,
             unique: true
         },
+        day: {
+            type: DataTypes.ENUM('day', 'night'),
+            defaultValue: 'day',
+            allowNull: false
+        },
         password:{
             type: DataTypes.STRING,
             allowNull: false
